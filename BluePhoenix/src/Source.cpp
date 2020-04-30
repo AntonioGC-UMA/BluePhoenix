@@ -1,15 +1,16 @@
 
 #include <iostream>
+#include <chrono>
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-#include "Entity.h"
-#include "Transform.h"
-#include "Physics.h"
-#include "Renderer.h"
 
-#include <chrono>
+#include "Scene.h"
+#include "Transform.h"
+#include "Velocity.h"
+#include "Mover.h"
+#include "RenderTriangle.h"
 
 using namespace std::chrono;
 
@@ -45,22 +46,31 @@ int main(void)
 
     // Entidades y componentes;
 
-    shared_ptr<Entity> triangulo = make_shared<Entity>();
 
-    triangulo->addNewComponent<Transform>();
-    triangulo->addNewComponent<Renderer>();
-    triangulo->addNewComponent<Physics>()->vel = 0.001;
+    Scene* scene = new Scene();
+
+    unsigned triangulo = scene->CreateEntity();
+
+    System* m = new Mover({ BaseComponent<Transform>::type, BaseComponent<Velocity>::type });
+    System* t = new RenderTriangle({ BaseComponent<Transform>::type }); 
+
+    /*
+    
+    BUG : El renderer coje a la entidad dos veces porque al añadir un nuevo componente tengo que comprobar si el sistema ya 
+            está afectando a esa entidad, y solo añadirla a la lista si no está ya
+
+            solucionar en Scene.h AddComponent
+    
+    */
+
+    scene->AddSystem(m);
+    scene->AddSystem(t);
+    
+
+    scene->AddComponent<Transform>(triangulo);
+    scene->AddComponent<Velocity>(triangulo).lock()->x = 0.0001;
 
 
-    shared_ptr<Entity> trianguloVeloz = make_shared<Entity>();
-
-    trianguloVeloz->addNewComponent<Transform>();
-    trianguloVeloz->addNewComponent<Renderer>();
-    trianguloVeloz->addNewComponent<Physics>()->vel = 0.002;
-
-    triangulo->addChild(trianguloVeloz);
-
-    triangulo->start();
 
     auto lastFrame = system_clock::now();
 
@@ -80,6 +90,8 @@ int main(void)
         
         frame++;
 
+        
+
         if (acumulatedDT > 1000)
         {
             cout << "Frame time: " << frame / acumulatedDT << "\tFPS: " << frame << endl;
@@ -89,9 +101,9 @@ int main(void)
 
         glClear(GL_COLOR_BUFFER_BIT);
 
+        /* Dibujar aqui !!!!1*/
 
-        triangulo->update(dt);
-        triangulo->lateUpdate();
+        scene->Update();
 
         glfwSwapBuffers(window);
 

@@ -2,57 +2,51 @@
 
 #include <memory>
 #include <vector>
-
+#include <map>
 
 
 #include "Component.h"
 
-using namespace std;
 
 class Entity : public enable_shared_from_this<Entity>
 {
-	vector<shared_ptr<Entity>> children;
-	vector<shared_ptr<Component>> components;
+	std::map<unsigned, std::shared_ptr<Component>> components;
 
-	weak_ptr<Entity> parent;
+	static unsigned idCounter;
 
 public:
 	
-	template<class T>
-	shared_ptr<T> getComponent();
+	unsigned id;
+
+	Entity();
+
+	bool hasComponent(unsigned type);
+
+	std::vector<std::weak_ptr<Component>> getComponents(std::vector<unsigned> types);
+
 
 	template<class T>
-	shared_ptr<T> addNewComponent();
+	bool hasComponent();
 
-	void addChild(shared_ptr<Entity> e);
-	void start();
-	void update(const float dt);
-	void lateUpdate();
+	template<class T>
+	std::shared_ptr<T> addComponent();
+
 };
 
 template<class T>
-inline shared_ptr<T> Entity::getComponent()
+inline bool Entity::hasComponent()
 {
 	unsigned tipe = Component::setType<T>();
 
-	for (auto& c : components)
-	{
-		if (c->getType() == tipe)
-		{			
-			return dynamic_pointer_cast<T>(c);
-		}
-	}
-
-	return shared_ptr<T>();
+	return components.find(tipe) != components.end();
 }
 
 template<class T>
-inline shared_ptr<T> Entity::addNewComponent()
+inline shared_ptr<T> Entity::addComponent()
 {
-	shared_ptr<T> t = make_shared<T>();
+	std::shared_ptr<T> t = std::make_shared<T>();
 
-	t->entity = shared_from_this();
-	components.push_back(t);
+	components.emplace(BaseComponent<T>::type, t);
 
 	return t;
 }

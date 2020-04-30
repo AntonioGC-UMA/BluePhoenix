@@ -1,11 +1,6 @@
 #pragma once
 
-#include <memory>
-//#include "Entity.h"
-
 using namespace std;
-
-class Entity;
 
 
 struct Component
@@ -13,15 +8,9 @@ struct Component
 private:
 	static unsigned idCounter;
 public:
-	weak_ptr<Entity> entity;
-
 public:
 	template<typename T> static unsigned setType();
 
-
-	virtual void update(const float dt) {};
-	virtual void lateUpdate() {};
-	virtual void start() {};
 	virtual unsigned getType() = 0;
 };
 

@@ -1,47 +1,25 @@
 #include "Entity.h"
 
+unsigned Entity::idCounter = 0;
 
-void Entity::addChild(shared_ptr<Entity> e)
+Entity::Entity()
 {
-	e->parent = shared_from_this();
-	children.push_back(e);
+	this->id = idCounter++;
 }
 
-void Entity::start()
+bool Entity::hasComponent(unsigned type)
 {
-	for (auto& c : components)
-	{
-		c->start();
-	}
-
-	for (auto& c : children)
-	{
-		c->start();
-	}
+	return components.find(type) != components.end();
 }
 
-void Entity::update(const float dt)
+vector<std::weak_ptr<Component>> Entity::getComponents(std::vector<unsigned> types)
 {
-	for (auto& c : components)
+	vector<std::weak_ptr<Component>> res;
+
+	for (unsigned u : types)
 	{
-		c->update(dt);
+		res.push_back(components.find(u)->second);
 	}
 
-	for (auto& c : children)
-	{
-		c->update(dt);
-	}
-}
-
-void Entity::lateUpdate()
-{
-	for (auto& c : components)
-	{
-		c->lateUpdate();
-	}
-
-	for (auto& c : children)
-	{
-		c->lateUpdate();
-	}
+	return res;
 }
