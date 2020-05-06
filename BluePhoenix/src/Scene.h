@@ -1,71 +1,51 @@
 #pragma once
 
 #include <vector>
-#include <memory>
+#include <unordered_map>
 
 #include "Entity.h"
 #include "System.h"
 
-
-class Scene
+namespace BP_ECS
 {
-	std::map<unsigned, std::shared_ptr<Entity>> entityMap;	// Mapa con todas las entidades y sus IDs
-	
-	std::vector<std::unique_ptr<System>> systems;		// Lista de sistemas
-
-
-public:
-
-	unsigned CreateEntity();
-
-	void Update();
-	
-	void AddSystem(System* sys)
-	{		
-		systems.push_back(std::unique_ptr<System>(sys));
-	}
-	
-	/*
-	template<class T>
-	void AddSystem(std::vector<unsigned> filter)
+	class Scene
 	{
-		std::unique_ptr<System> s = std::dynamic_pointer_cast<System>(std::make_unique<T>(filter));
+	private:
+		std::unordered_map<unsigned, Entity*> entities;
+		std::vector<System*> systems;
+		unsigned entityCounter = 0;
+	public:
 
-		systems.push_back(s);
-	}
-	*/
-	template<class T>
-	weak_ptr<T> AddComponent(unsigned entity)
-	{
-		std::shared_ptr<Entity> e = entityMap.find(entity)->second;
-		std::weak_ptr<T> comp = e->addComponent<T>();
-
-		for (auto& sys : systems)
+		unsigned createEntity()
 		{
-			if (sys->matches(e))
+			entities[entityCounter] = new Entity();
+			return entityCounter++;
+		}
+
+		void addComponent(unsigned entity, Component* c)
+		{
+			Entity* e = entities.at(entity);
+
+			e->add(c);
+
+			for (auto item : systems)
 			{
-				sys->addEntity(e);
+				if (item->filter(e))
+					item->addEntity(e);
 			}
 		}
 
-		return comp;
-	}
-
-	template<class T>
-	weak_ptr<T> RemoveComponent(unsigned entity)
-	{
-		std::shared_ptr<Entity> e = entityMap.find(entity)->second;
-		std::weak_ptr<T> comp = e->addComponent<T>();
-
-		for (auto& sys : systems)
+		void addSystem(System* s)
 		{
-			if (sys.Valid(e))
-			{
-				// TODO si el
-			}
+			systems.push_back(s);
 		}
 
-		return comp;
-	}
-};
-
+		void Tick()
+		{
+			for (auto item : systems)
+			{
+				item->Tick();
+			}
+		}
+	};
+}

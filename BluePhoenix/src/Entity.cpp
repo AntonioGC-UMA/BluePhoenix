@@ -1,5 +1,5 @@
 #include "Entity.h"
-
+/*
 unsigned Entity::idCounter = 0;
 
 Entity::Entity()
@@ -7,12 +7,21 @@ Entity::Entity()
 	this->id = idCounter++;
 }
 
+Entity::~Entity()
+{
+	for (auto& item : components)
+	{
+		delete item.second;
+	}
+}
+
 bool Entity::hasComponent(unsigned type)
 {
 	return components.find(type) != components.end();
 }
 
-vector<std::weak_ptr<Component>> Entity::getComponents(std::vector<unsigned> types)
+
+Component* Entity::getComponent(std::vector<unsigned> types)
 {
 	vector<std::weak_ptr<Component>> res;
 
@@ -22,4 +31,4 @@ vector<std::weak_ptr<Component>> Entity::getComponents(std::vector<unsigned> typ
 	}
 
 	return res;
-}
+}*/

@@ -7,7 +7,7 @@ struct Component
 {
 private:
 	static unsigned idCounter;
-public:
+
 public:
 	template<typename T> static unsigned setType();
 

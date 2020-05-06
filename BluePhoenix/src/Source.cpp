@@ -13,6 +13,7 @@
 #include "RenderTriangle.h"
 
 using namespace std::chrono;
+using namespace BP_ECS;
 
 int main(void)
 {
@@ -49,61 +50,40 @@ int main(void)
 
     Scene* scene = new Scene();
 
-    unsigned triangulo = scene->CreateEntity();
+    unsigned triangulo = scene->createEntity();
 
-    System* m = new Mover({ BaseComponent<Transform>::type, BaseComponent<Velocity>::type });
-    System* t = new RenderTriangle({ BaseComponent<Transform>::type }); 
-
-    /*
-    
-    BUG : El renderer coje a la entidad dos veces porque al añadir un nuevo componente tengo que comprobar si el sistema ya 
+   
+    /*      BUG : El renderer coje a la entidad dos veces porque al añadir un nuevo componente tengo que comprobar si el sistema ya 
             está afectando a esa entidad, y solo añadirla a la lista si no está ya
 
-            solucionar en Scene.h AddComponent
-    
+            solucionar en Scene.h AddComponent    
     */
 
-    scene->AddSystem(m);
-    scene->AddSystem(t);
+    Velocity* vel = new Velocity();
+
+    vel->x = 0.0001f;
+
+    scene->addComponent(triangulo, vel);
+
+    System* m = new Mover();
+    scene->addSystem(m);
+
+    System* rt = new RenderTriangle();
+    scene->addSystem(rt);
     
-
-    scene->AddComponent<Transform>(triangulo);
-    scene->AddComponent<Velocity>(triangulo).lock()->x = 0.0001;
+    scene->addComponent(triangulo, new Transform);
 
 
 
-    auto lastFrame = system_clock::now();
-
-    int frame = 0;
-
-    float acumulatedDT = 0;
-
-    float dt = 0;
 
     while (!glfwWindowShouldClose(window))
     {
-        auto thisFrame = system_clock::now();
-        duration<float, milli> duracion = thisFrame - lastFrame;
-        dt = duracion.count();
-        acumulatedDT += dt;
-        lastFrame = thisFrame;
-        
-        frame++;
-
-        
-
-        if (acumulatedDT > 1000)
-        {
-            cout << "Frame time: " << frame / acumulatedDT << "\tFPS: " << frame << endl;
-            acumulatedDT -= 1000;
-            frame = 0;
-        }
 
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* Dibujar aqui !!!!1*/
 
-        scene->Update();
+        scene->Tick();
 
         glfwSwapBuffers(window);
 

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "System.h"
+#include "Transform.h"
+#include "Velocity.h"
 
-struct RenderTriangle : public System
+struct RenderTriangle : public  BP_ECS::BaseSystem<Transform>
 {
-	RenderTriangle(std::vector<unsigned> v) : System(v) {}
-	void Update() override;
+	void Tick() override;
 };
-

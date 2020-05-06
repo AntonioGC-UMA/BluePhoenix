@@ -4,5 +4,5 @@
 
 struct Velocity : public BaseComponent<Velocity>
 {
-	float x, y;
+	float x = 0, y = 0;
 };

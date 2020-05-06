@@ -3,23 +3,37 @@
 #include "Entity.h"
 
 
-class Scene;
-
-struct System
+namespace BP_ECS
 {
-	std::vector<std::pair<unsigned, std::vector<std::weak_ptr<Component>>>> components;
+	class Scene;
 
-	std::vector<unsigned> filter;
+	struct System
+	{
+		static Scene scene;
+
+		virtual void Tick() = 0;
+		virtual bool filter(Entity* entity) = 0;
+		virtual void addEntity(Entity* entity) = 0;
+	};
+
+	template<class ...Types>
+	struct BaseSystem : public System
+	{
+		//std::vector<std::pair<unsigned, std::tuple<Types...>>> comp;
+		std::vector<std::tuple<Types*...>> comp;
 
 
-	static Scene scene;
+		/*Check components match*/
+		bool filter(Entity* entity) override
+		{
+			return entity->has<Types...>();
+		}
 
-	virtual void Update() = 0;
+		/*Add entity to proces*/
+		void addEntity(Entity* entity) override
+		{
+			comp.push_back(make_tuple(entity->get<Types>()...));
+		}
+	};
+}
 
-	System(std::vector<unsigned> types);
-
-	bool matches(std::shared_ptr<Entity> e);
-	void addEntity(std::shared_ptr<Entity> e);
-	//bool targetsEntity(unsigned entityID);
-	void removeEntity(unsigned entityID);
-};

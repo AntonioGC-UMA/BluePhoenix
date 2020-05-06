@@ -1,52 +1,44 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-#include <map>
-
+#include <unordered_map>
 
 #include "Component.h"
 
-
-class Entity : public enable_shared_from_this<Entity>
+namespace BP_ECS
 {
-	std::map<unsigned, std::shared_ptr<Component>> components;
+	class Entity
+	{
+	public:
+		template<class First, class Second, class... Types>
+		bool has()
+		{
+			return has<First>() && has<Second, Types...>();
+		}
 
-	static unsigned idCounter;
-
-public:
-	
-	unsigned id;
-
-	Entity();
-
-	bool hasComponent(unsigned type);
-
-	std::vector<std::weak_ptr<Component>> getComponents(std::vector<unsigned> types);
+		template<class T>
+		bool has()
+		{
+			auto index = BaseComponent<T>::type;
+			return components.find(index) != components.end();
+		}
 
 
-	template<class T>
-	bool hasComponent();
+		template<class T>
+		T* get()
+		{
+			components.at(BaseComponent<T>::type);
+			T* res = dynamic_cast<T*>(components.at(BaseComponent<T>::type));
 
-	template<class T>
-	std::shared_ptr<T> addComponent();
+			return res;
+		}
+		
+		void add(Component* c)
+		{
+			components[c->getType()] = c;
+		}
 
-};
+	private:
 
-template<class T>
-inline bool Entity::hasComponent()
-{
-	unsigned tipe = Component::setType<T>();
-
-	return components.find(tipe) != components.end();
-}
-
-template<class T>
-inline shared_ptr<T> Entity::addComponent()
-{
-	std::shared_ptr<T> t = std::make_shared<T>();
-
-	components.emplace(BaseComponent<T>::type, t);
-
-	return t;
+		unordered_map<unsigned, Component*> components;
+	};	
 }
