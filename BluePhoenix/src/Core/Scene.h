@@ -22,11 +22,12 @@ namespace BP_ECS
 			return entityCounter++;
 		}
 
-		void addComponent(unsigned entity, Component* c)
+		template<typename T>
+		void addComponent(unsigned entity)
 		{
 			Entity* e = entities.at(entity);
 
-			e->add(c);
+			e->add<T>();
 
 			for (auto item : systems)
 			{

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "System.h"
-#include "Transform.h"
-#include "Velocity.h"
+#include "../Core/System.h"
+#include "../Components/Transform.h"
+#include "../Components/Velocity.h"
 
 struct Mover : public BP_ECS::BaseSystem<Transform, Velocity>
 {

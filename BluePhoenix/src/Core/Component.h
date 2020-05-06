@@ -2,7 +2,42 @@
 
 using namespace std;
 
+namespace BP_ECS
+{
+	struct Component
+	{
+		unsigned type;
 
+		virtual ~Component() = default;
+	};
+
+	extern unsigned componentCounter;
+
+
+	template<typename T>
+	unsigned getType()
+	{
+		static unsigned type = -1;
+
+		if (type == -1)
+		{
+			type = componentCounter++;
+		}
+
+		return type;
+	}
+
+	template<typename T>
+	Component* createComponent()
+	{
+		Component* c = new T();
+		c->type = getType<T>();
+
+		return c;
+	}
+}
+
+/*
 struct Component
 {
 private:
@@ -42,3 +77,4 @@ inline unsigned Component::setType()
 
 	return i;
 }
+*/

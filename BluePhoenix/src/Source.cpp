@@ -5,12 +5,11 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
+#include "Core/Scene.h"
+#include "Components/Transform.h"
+#include "Components/Velocity.h"
+#include "Systems/RenderTriangle.h"
 
-#include "Scene.h"
-#include "Transform.h"
-#include "Velocity.h"
-#include "Mover.h"
-#include "RenderTriangle.h"
 
 using namespace std::chrono;
 using namespace BP_ECS;
@@ -59,19 +58,11 @@ int main(void)
             solucionar en Scene.h AddComponent    
     */
 
-    Velocity* vel = new Velocity();
-
-    vel->x = 0.0001f;
-
-    scene->addComponent(triangulo, vel);
-
-    System* m = new Mover();
-    scene->addSystem(m);
 
     System* rt = new RenderTriangle();
     scene->addSystem(rt);
     
-    scene->addComponent(triangulo, new Transform);
+    scene->addComponent<Transform>(triangulo);
 
 
 

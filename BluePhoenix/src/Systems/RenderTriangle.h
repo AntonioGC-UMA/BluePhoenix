@@ -1,8 +1,7 @@
 #pragma once
 
-#include "System.h"
-#include "Transform.h"
-#include "Velocity.h"
+#include "../Core/System.h"
+#include "../Components/Transform.h"
 
 struct RenderTriangle : public  BP_ECS::BaseSystem<Transform>
 {

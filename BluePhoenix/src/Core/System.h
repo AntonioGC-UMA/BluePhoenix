@@ -32,7 +32,7 @@ namespace BP_ECS
 		/*Add entity to proces*/
 		void addEntity(Entity* entity) override
 		{
-			comp.push_back(make_tuple(entity->get<Types>()...));
+			comp.push_back(make_tuple(entity->get<Types>()...)); // TODO: Revisar
 		}
 	};
 }

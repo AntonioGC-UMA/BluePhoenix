@@ -18,7 +18,7 @@ namespace BP_ECS
 		template<class T>
 		bool has()
 		{
-			auto index = BaseComponent<T>::type;
+			auto index = getType<T>();
 			return components.find(index) != components.end();
 		}
 
@@ -26,15 +26,16 @@ namespace BP_ECS
 		template<class T>
 		T* get()
 		{
-			components.at(BaseComponent<T>::type);
-			T* res = dynamic_cast<T*>(components.at(BaseComponent<T>::type));
+			T* res = dynamic_cast<T*>(components.at(getType<T>()));
 
 			return res;
 		}
 		
-		void add(Component* c)
+		template<class T>
+		void add()
 		{
-			components[c->getType()] = c;
+			Component* c = createComponent<T>();
+			components[c->type] = c;
 		}
 
 	private:

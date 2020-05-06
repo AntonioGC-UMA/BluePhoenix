@@ -1,6 +1,5 @@
 #include "RenderTriangle.h"
 
-#include "Transform.h"
 #include "GL/glew.h"
 
 

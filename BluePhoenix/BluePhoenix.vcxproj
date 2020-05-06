@@ -151,23 +151,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\RenderTriangle.cpp" />
-    <ClCompile Include="src\Mover.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\Systems\RenderTriangle.cpp" />
+    <ClCompile Include="src\Systems\Mover.cpp" />
+    <ClCompile Include="src\Core\Scene.cpp" />
+    <ClCompile Include="src\Core\Entity.cpp" />
+    <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\RenderTriangle.h" />
-    <ClInclude Include="src\Mover.h" />
-    <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\Entity.h" />
-    <ClInclude Include="src\Component.h" />
-    <ClInclude Include="src\Transform.h" />
-    <ClInclude Include="src\System.h" />
-    <ClInclude Include="src\Velocity.h" />
+    <ClInclude Include="src\Systems\RenderTriangle.h" />
+    <ClInclude Include="src\Systems\Mover.h" />
+    <ClInclude Include="src\Core\Scene.h" />
+    <ClInclude Include="src\Core\Entity.h" />
+    <ClInclude Include="src\Core\Component.h" />
+    <ClInclude Include="src\Components\Transform.h" />
+    <ClInclude Include="src\Core\System.h" />
+    <ClInclude Include="src\Components\Velocity.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
