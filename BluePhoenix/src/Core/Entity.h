@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 
 #include "Component.h"
 
@@ -31,11 +32,9 @@ namespace BP_ECS
 			return res;
 		}
 		
-		template<class T>
-		void add()
+		void add(unsigned listID, Component* cp)
 		{
-			Component* c = createComponent<T>();
-			components[c->type] = c;
+			components[listID] = cp;
 		}
 
 	private:

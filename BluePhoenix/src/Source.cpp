@@ -6,9 +6,15 @@
 #include "GLFW/glfw3.h"
 
 #include "Core/Scene.h"
+
+
 #include "Components/Transform.h"
 #include "Components/Velocity.h"
+#include "Components/Bounds.h"
+
+
 #include "Systems/RenderTriangle.h"
+#include "Systems/Mover.h"
 
 
 using namespace std::chrono;
@@ -49,7 +55,8 @@ int main(void)
 
     Scene* scene = new Scene();
 
-    unsigned triangulo = scene->createEntity();
+    unsigned trianguloX = scene->createEntity();
+    unsigned trianguloY = scene->createEntity();
 
    
     /*      BUG : El renderer coje a la entidad dos veces porque al añadir un nuevo componente tengo que comprobar si el sistema ya 
@@ -59,10 +66,25 @@ int main(void)
     */
 
 
+
+    // TODO pasar parametros al constructor de los componentes al crearlos
+    scene->addComponent<Velocity>(trianguloX)->x = 0.0001;
+    auto a = scene->addComponent<Bounds>(trianguloX);
+    a->left = -1; a->right = 1;
+    scene->addComponent<Velocity>(trianguloY)->y = 0.0001;
+    auto b = scene->addComponent<Bounds>(trianguloY);
+    b->left = -1;
+    b->right = 1;
+    
+
+    System* mv = new Mover();
+    scene->addSystem(mv);
+
     System* rt = new RenderTriangle();
     scene->addSystem(rt);
     
-    scene->addComponent<Transform>(triangulo);
+    scene->addComponent<Transform>(trianguloX);
+    scene->addComponent<Transform>(trianguloY);
 
 
 
