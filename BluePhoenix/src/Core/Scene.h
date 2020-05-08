@@ -26,21 +26,21 @@ namespace BP_ECS
 			return entityCounter;
 		}
 
-		template<typename T>
-		T* addComponent(unsigned entity)
+		template<typename T, typename... Args>
+		void addComponent(unsigned entity, Args... args)
 		{
 			unsigned type = getType<T>();
-			auto item = componentList.find(type);			
 			
+			auto list = ComponentListTemplate<T>::getInstance();			
+
+			auto item = componentList.find(type);
 
 			if (item == componentList.end()) // Si no hay un contenedor para ese tipo se crea
 			{
-				componentList.insert({ getType<T>() , new ComponentListTemplate<T>() });
+				componentList.insert({type , list});
 			}
 
-			ComponentList* cl = componentList.find(type)->second;
-
-			Component* comp = cl->add();
+			Component* comp = list->add(args...);
 
 			Entity* e = entities.at(entity);
 
@@ -51,8 +51,6 @@ namespace BP_ECS
 				if (item->filter(e))
 					item->addEntity(e);
 			}
-
-			return dynamic_cast<T*>(comp);
 		}
 
 		void addSystem(System* s)

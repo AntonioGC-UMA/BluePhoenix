@@ -66,16 +66,10 @@ int main(void)
     */
 
 
-
-    // TODO pasar parametros al constructor de los componentes al crearlos
-    scene->addComponent<Velocity>(trianguloX)->x = 0.0001;
-    auto a = scene->addComponent<Bounds>(trianguloX);
-    a->left = -1; a->right = 1;
-    scene->addComponent<Velocity>(trianguloY)->y = 0.0001;
-    auto b = scene->addComponent<Bounds>(trianguloY);
-    b->left = -1;
-    b->right = 1;
-    
+    scene->addComponent<Velocity>(trianguloX, 0.0001, 0);
+    scene->addComponent<Bounds>(trianguloX, 1, -1);
+    scene->addComponent<Velocity>(trianguloY, 0, 0.0001);
+    scene->addComponent<Bounds>(trianguloY, 1, -1);    
 
     System* mv = new Mover();
     scene->addSystem(mv);

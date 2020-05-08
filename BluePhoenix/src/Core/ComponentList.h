@@ -10,7 +10,6 @@ namespace BP_ECS
 	{
 		virtual void remove(Component*) = 0;
 
-		virtual Component* add() = 0;
 	};
 
 	template<typename T>
@@ -26,11 +25,28 @@ namespace BP_ECS
 			components.erase(it, ++it);
 		}
 
-		Component* add() final
+		template<typename... Args>
+		Component* add(Args... args) 
 		{
-			auto a = components.insert(T());
+			auto a = components.emplace(args...);
 			
 			return &(*a);
 		}
+
+		static ComponentListTemplate<T>* getInstance()
+		{
+			static ComponentListTemplate<T>* instance = nullptr;
+
+			if (instance == nullptr)
+			{
+				instance = new ComponentListTemplate<T>();
+			}
+
+			return instance;
+		}
+
+	private:
+		static ComponentListTemplate<T>* instance;
+
 	};
 }
