@@ -5,5 +5,10 @@
 
 struct RenderTriangle : public  BP_ECS::BaseSystem<Transform>
 {
+	RenderTriangle();
+
 	void Tick() override;
+
+private:
+	unsigned int shader;
 };
