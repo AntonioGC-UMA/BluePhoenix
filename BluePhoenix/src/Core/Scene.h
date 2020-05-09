@@ -12,7 +12,7 @@ namespace BP_ECS
 	class Scene
 	{
 	private:
-		std::unordered_map<unsigned, Entity*> entities;
+		unordered_map<unsigned, Entity*> entities;
 
 		unordered_map<unsigned, ComponentList*> componentList;
 
@@ -31,13 +31,18 @@ namespace BP_ECS
 		{
 			unsigned type = getType<T>();
 			
-			auto list = ComponentListTemplate<T>::getInstance();			
+			ComponentListTemplate<T>* list = nullptr;
 
 			auto item = componentList.find(type);
 
 			if (item == componentList.end()) // Si no hay un contenedor para ese tipo se crea
 			{
+				list = new ComponentListTemplate<T>();
 				componentList.insert({type , list});
+			}
+			else
+			{
+				list = static_cast<ComponentListTemplate<T>*>(item->second);
 			}
 
 			Component* comp = list->add(args...);

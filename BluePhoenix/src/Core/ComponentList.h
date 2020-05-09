@@ -9,7 +9,6 @@ namespace BP_ECS
 	struct ComponentList
 	{
 		virtual void remove(Component*) = 0;
-
 	};
 
 	template<typename T>
@@ -32,21 +31,5 @@ namespace BP_ECS
 			
 			return &(*a);
 		}
-
-		static ComponentListTemplate<T>* getInstance()
-		{
-			static ComponentListTemplate<T>* instance = nullptr;
-
-			if (instance == nullptr)
-			{
-				instance = new ComponentListTemplate<T>();
-			}
-
-			return instance;
-		}
-
-	private:
-		static ComponentListTemplate<T>* instance;
-
 	};
 }
