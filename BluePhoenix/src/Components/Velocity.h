@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../Core/Component.h"
 
-struct Velocity : public BP_ECS::Component
+struct Velocity
 {
 	Velocity(float x, float y) : x(x), y(y) {}
 

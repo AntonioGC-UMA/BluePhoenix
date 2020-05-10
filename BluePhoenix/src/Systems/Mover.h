@@ -9,9 +9,9 @@ struct Mover : public BP_ECS::BaseSystem<Transform, Velocity, Bounds>
 {
 	void Tick() override
 	{
-		for (auto& item : comp)
+		for (auto [entity, components] : comp)
 		{
-			auto [trans, vel, bound] = item;
+			auto [trans, vel, bound] = components;
 
 			trans->x += vel->x;
 			trans->y += vel->y;

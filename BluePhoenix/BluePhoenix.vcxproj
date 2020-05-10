@@ -151,20 +151,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Component.cpp" />
+    <ClCompile Include="src\Systems\RenderQuad.cpp" />
     <ClCompile Include="src\Systems\RenderTriangle.cpp" />
     <ClCompile Include="src\Systems\Mover.cpp" />
-    <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\plf_colony.h" />
+    <ClInclude Include="src\Core\Component.h" />
+    <ClInclude Include="src\Systems\RenderQuad.h" />
     <ClInclude Include="src\Components\Bounds.h" />
     <ClInclude Include="src\Core\ComponentList.h" />
     <ClInclude Include="src\Systems\RenderTriangle.h" />
     <ClInclude Include="src\Systems\Mover.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Core\Entity.h" />
-    <ClInclude Include="src\Core\Component.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Core\System.h" />
     <ClInclude Include="src\Components\Velocity.h" />

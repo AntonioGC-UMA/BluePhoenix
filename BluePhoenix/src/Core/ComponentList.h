@@ -3,33 +3,51 @@
 #include "../../external/plf_colony.h"
 #include "Component.h"
 
+#include <algorithm>
+
 namespace BP_ECS
 {
-
 	struct ComponentList
 	{
-		virtual void remove(Component*) = 0;
+		virtual void remove(unsigned entity) = 0;
 	};
 
 	template<typename T>
 	struct ComponentListTemplate : public ComponentList
 	{
-		plf::colony<T> components;
+		plf::colony<pair<unsigned, T>> components;
 
-		void remove(Component* c) final
+		static ComponentListTemplate<T>* Instance()
 		{
-			T* toRemove = dynamic_cast<T*>(c);
-			auto it = components.get_iterator_from_pointer(toRemove);
+			static ComponentListTemplate<T>* instace = new  ComponentListTemplate<T>();
 
-			components.erase(it, ++it);
+			return instace;
+		}
+
+		void remove(unsigned entity) final
+		{
+			auto it = find_if(components.begin(), components.end(), [entity](pair<unsigned, T>& elem) { return elem.first == entity; });
+
+			components.erase(it);
 		}
 
 		template<typename... Args>
-		Component* add(Args... args) 
+		void add(unsigned entity, Args... args) 
 		{
-			auto a = components.emplace(args...);
-			
-			return &(*a);
+			components.emplace(make_pair(entity, T(args...)));
+		}
+
+		T* get(unsigned entity)
+		{
+			for (pair<unsigned, T>& item : components)
+			{
+				if (item.first == entity)
+				{
+					return &item.second;
+				}
+			}
+
+			return nullptr;
 		}
 	};
 }

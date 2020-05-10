@@ -14,11 +14,26 @@
 
 
 #include "Systems/RenderTriangle.h"
+#include "Systems/RenderQuad.h"
 #include "Systems/Mover.h"
+
 
 
 using namespace std::chrono;
 using namespace BP_ECS;
+
+Scene* scene;
+unsigned trianguloX;
+unsigned trianguloY;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_E && action == GLFW_PRESS)
+    {
+        scene->removeEntity(trianguloX);
+    }
+}
+
 
 int main(void)
 {
@@ -48,15 +63,15 @@ int main(void)
     }
 
     std::cout << glGetString(GL_VERSION) << std::endl;
-
+    glfwSetKeyCallback(window, key_callback);
 
     // Entidades y componentes;
 
 
-    Scene* scene = new Scene();
+    scene = new Scene();
 
-    unsigned trianguloX = scene->createEntity();
-    unsigned trianguloY = scene->createEntity();
+    trianguloX = scene->createEntity();
+    trianguloY = scene->createEntity();
 
    
     /*      BUG : El renderer coje a la entidad dos veces porque al añadir un nuevo componente tengo que comprobar si el sistema ya 
@@ -74,7 +89,7 @@ int main(void)
     System* mv = new Mover();
     scene->addSystem(mv);
 
-    System* rt = new RenderTriangle();
+    System* rt = new RenderQuad();
     scene->addSystem(rt);
     
     scene->addComponent<Transform>(trianguloX);

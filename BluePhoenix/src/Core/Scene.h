@@ -26,36 +26,30 @@ namespace BP_ECS
 			return entityCounter;
 		}
 
-		template<typename T, typename... Args>
-		void addComponent(unsigned entity, Args... args)
+		void removeEntity(unsigned entity)
 		{
-			unsigned type = getType<T>();
-			
-			ComponentListTemplate<T>* list = nullptr;
+			auto elem = entities.find(entity);
 
-			auto item = componentList.find(type);
-
-			if (item == componentList.end()) // Si no hay un contenedor para ese tipo se crea
-			{
-				list = new ComponentListTemplate<T>();
-				componentList.insert({type , list});
-			}
-			else
-			{
-				list = static_cast<ComponentListTemplate<T>*>(item->second);
-			}
-
-			Component* comp = list->add(args...);
-
-			Entity* e = entities.at(entity);
-
-			e->add(type, comp);
+			if (elem == entities.end()) return;
 
 			for (auto item : systems)
 			{
-				if (item->filter(e))
-					item->addEntity(e);
+				if (item->hasEntity(entity))
+				{
+					item->removeEntity(entity);
+				}					
 			}
+
+			Entity* e = elem->second;
+
+			for (auto item : e->types)
+			{
+				componentList[item]->remove(entity);
+			}
+
+			delete e;
+
+			entities.erase(entity);
 		}
 
 		void addSystem(System* s)
@@ -68,6 +62,34 @@ namespace BP_ECS
 			for (auto item : systems)
 			{
 				item->Tick();
+			}
+		}
+
+
+		template<typename T, typename... Args>
+		void addComponent(unsigned entity, Args... args)
+		{
+			unsigned type = getType<T>();
+			
+			ComponentListTemplate<T>* list = ComponentListTemplate<T>::Instance();
+
+			auto item = componentList.find(type);
+
+			if (item == componentList.end())
+			{
+				componentList.insert({type , list});
+			}
+
+			list->add(entity, args...);
+
+			Entity* e = entities.at(entity);
+
+			e->add(type);
+
+			for (auto item : systems)
+			{
+				if (item->filter(e))
+					item->addEntity(entity);
 			}
 		}
 	};

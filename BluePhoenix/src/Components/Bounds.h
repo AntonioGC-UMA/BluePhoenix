@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../Core/Component.h"
 
-struct Bounds : public BP_ECS::Component
+struct Bounds
 {
 	Bounds(float r, float l) : right(r), left(l) {}
 

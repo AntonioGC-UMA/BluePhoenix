@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 
 #include "Component.h"
 
@@ -20,25 +21,15 @@ namespace BP_ECS
 		bool hasOne()
 		{
 			auto index = getType<T>();
-			return components.find(index) != components.end();
+			return find(types.begin(), types.end(), index) != types.end();
 		}
 
-
-		template<class T>
-		T* get()
+		void add(unsigned type)
 		{
-			T* res = dynamic_cast<T*>(components.at(getType<T>()));
-
-			return res;
-		}
-		
-		void add(unsigned listID, Component* cp)
-		{
-			components[listID] = cp;
+			types.push_back(type);
 		}
 
-	private:
 
-		unordered_map<unsigned, Component*> components;
+		vector<unsigned> types;
 	};	
 }

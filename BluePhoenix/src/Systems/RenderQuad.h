@@ -3,12 +3,15 @@
 #include "../Core/System.h"
 #include "../Components/Transform.h"
 
-struct RenderTriangle : public  BP_ECS::BaseSystem<Transform>
+class RenderQuad : public  BP_ECS::BaseSystem<Transform>
 {
-	RenderTriangle();
+
+public:
+	RenderQuad();
 
 	void Tick() final;
 
 private:
 	unsigned int shader;
 };
+

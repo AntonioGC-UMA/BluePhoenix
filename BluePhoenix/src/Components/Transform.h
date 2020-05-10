@@ -1,9 +1,7 @@
 #pragma once
 
-#include "../Core/Component.h"
 
-
-struct Transform : public BP_ECS::Component
+struct Transform
 {
 	double x = 0, y = 0;
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity.h"
-
+#include "ComponentList.h"
 
 namespace BP_ECS
 {
@@ -9,19 +9,17 @@ namespace BP_ECS
 
 	struct System
 	{
-		static Scene scene;
-
 		virtual void Tick() = 0;
 		virtual bool filter(Entity* entity) = 0;
-		virtual void addEntity(Entity* entity) = 0;
+		virtual bool hasEntity(unsigned entity) = 0;
+		virtual void addEntity(unsigned entity) = 0;
+		virtual void removeEntity(unsigned entity) = 0;
 	};
 
 	template<class ...Types>
 	struct BaseSystem : public System
 	{
-		//std::vector<std::pair<unsigned, std::tuple<Types...>>> comp;
-		std::vector<std::tuple<Types*...>> comp;
-
+		std::vector<std::pair<unsigned, std::tuple<Types*...>>> comp;
 
 		/*Check components match*/
 		bool filter(Entity* entity) override
@@ -29,10 +27,24 @@ namespace BP_ECS
 			return entity->has<Types...>();
 		}
 
-		/*Add entity to proces*/
-		void addEntity(Entity* entity) final
+		bool hasEntity(unsigned entity) final
 		{
-			comp.push_back(make_tuple(entity->get<Types>()...)); // TODO: Revisar como funciona esto, porque parece magia
+			return comp.end() != find_if(comp.begin(), comp.end(), [entity](auto& s) { return s.first == entity; });
+		}
+
+		void removeEntity(unsigned entity) final
+		{
+			auto it = find_if(comp.begin(), comp.end(), [entity](auto& s) { return s.first == entity; });
+
+			comp.erase(it);
+		}
+
+		/*Add entity to proces*/
+		void addEntity(unsigned entity) final
+		{		
+			std::tuple<Types*...> temp = make_tuple(ComponentListTemplate<Types>::Instance()->get(entity)...);
+
+			comp.push_back({ entity, temp }); // TODO: Revisar como funciona esto, porque parece magia
 		}
 	};
 }

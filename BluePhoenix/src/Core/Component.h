@@ -4,11 +4,6 @@ using namespace std;
 
 namespace BP_ECS
 {
-	struct Component
-	{
-		virtual ~Component() = default;
-	};
-
 	extern unsigned componentCounter;
 
 	template<typename T>
