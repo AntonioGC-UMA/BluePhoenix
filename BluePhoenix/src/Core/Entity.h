@@ -10,14 +10,14 @@ namespace BP_ECS
 	class Entity
 	{
 	public:
-		template<class First, class Second, class... Types>
+		template<class... Types>
 		bool has()
 		{
-			return has<First>() && has<Second, Types...>();
+			return (hasOne<Types>() && ...);
 		}
 
 		template<class T>
-		bool has()
+		bool hasOne()
 		{
 			auto index = getType<T>();
 			return components.find(index) != components.end();

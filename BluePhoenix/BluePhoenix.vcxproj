@@ -153,7 +153,6 @@
   <ItemGroup>
     <ClCompile Include="src\Systems\RenderTriangle.cpp" />
     <ClCompile Include="src\Systems\Mover.cpp" />
-    <ClCompile Include="src\Core\Entity.cpp" />
     <ClCompile Include="src\Core\Component.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
