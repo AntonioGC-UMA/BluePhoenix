@@ -88,7 +88,7 @@ namespace BP_ECS
 
 			for (auto item : systems)
 			{
-				if (item->filter(e))
+				if (item->filter(e) && ! item->hasEntity(entity))
 					item->addEntity(entity);
 			}
 		}

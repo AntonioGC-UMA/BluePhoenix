@@ -1,6 +1,5 @@
 #pragma once
 
-#include <unordered_map>
 #include <vector>
 #include <algorithm>
 
@@ -14,14 +13,12 @@ namespace BP_ECS
 		template<class... Types>
 		bool has()
 		{
-			return (hasOne<Types>() && ...);
+			return (true && ... && hasOne(getType<Types>()));
 		}
 
-		template<class T>
-		bool hasOne()
+		bool hasOne(unsigned type)
 		{
-			auto index = getType<T>();
-			return find(types.begin(), types.end(), index) != types.end();
+			return find(types.begin(), types.end(), type) != types.end();
 		}
 
 		void add(unsigned type)

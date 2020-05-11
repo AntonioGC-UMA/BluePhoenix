@@ -30,6 +30,9 @@
     <ClCompile Include="src\Core\Component.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\BluePhoenix.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Entity.h">
@@ -68,5 +71,12 @@
     <ClInclude Include="src\Core\Component.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\BluePhoenix.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Shaders\fragment.shader" />
+    <None Include="src\Shaders\vertex.shader" />
   </ItemGroup>
 </Project>

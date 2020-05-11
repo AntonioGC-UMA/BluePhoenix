@@ -21,7 +21,6 @@ namespace BP_ECS
 	{
 		std::vector<std::pair<unsigned, std::tuple<Types*...>>> comp;
 
-		/*Check components match*/
 		bool filter(Entity* entity) override
 		{
 			return entity->has<Types...>();
@@ -39,12 +38,11 @@ namespace BP_ECS
 			comp.erase(it);
 		}
 
-		/*Add entity to proces*/
 		void addEntity(unsigned entity) final
 		{		
 			std::tuple<Types*...> temp = make_tuple(ComponentListTemplate<Types>::Instance()->get(entity)...);
 
-			comp.push_back({ entity, temp }); // TODO: Revisar como funciona esto, porque parece magia
+			comp.push_back({ entity, temp });
 		}
 	};
 }
