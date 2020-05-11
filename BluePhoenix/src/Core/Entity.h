@@ -26,6 +26,12 @@ namespace BP_ECS
 			types.push_back(type);
 		}
 
+		void remove(unsigned type)
+		{
+			auto it = find(types.begin(), types.end(), type);
+			if (it != types.end()) types.erase(it);
+		}
+
 
 		vector<unsigned> types;
 	};	

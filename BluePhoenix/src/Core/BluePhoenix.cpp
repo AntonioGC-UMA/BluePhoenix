@@ -87,13 +87,13 @@ void BluePhoenix::Run()
         if (pulsado)
         {
             pulsado = false;
-            if (estado)
+            if (!estado)
             {
-                scene.deactivateSystem(1);
+                scene.removeComponent<Bounds>(trianguloX);
             }
             else
             {
-                scene.activateSystem(1);
+                scene.addComponent<Bounds>(trianguloX, 1, -1);
             }
             estado = !estado;
         }

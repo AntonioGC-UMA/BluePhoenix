@@ -109,5 +109,20 @@ namespace BP_ECS
 					item->addEntity(entity);
 			}
 		}
+
+		template <typename T>
+		void removeComponent(unsigned entity)
+		{
+			unsigned type = getType<T>();
+			Entity* e = entities.at(entity);
+			e->remove(type);
+			ComponentListTemplate<T>::Instance()->remove(entity);
+
+			for (auto item : systems)
+			{
+				if (!item->filter(e) && item->hasEntity(entity))
+					item->removeEntity(entity);
+			}
+		}
 	};
 }
