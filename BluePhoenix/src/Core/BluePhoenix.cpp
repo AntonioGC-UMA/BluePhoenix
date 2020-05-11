@@ -11,15 +11,19 @@
 #include "../Systems/RenderQuad.h"
 #include "../Systems/Mover.h"
 
+bool pulsado = false;
 
-/*
+unsigned trianguloX;
+unsigned trianguloY;
+
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_E && action == GLFW_PRESS)
     {
-        scene->removeEntity(trianguloX);
+        pulsado = true;        
     }
-}*/
+}
 
 int BluePhoenix::Init()
 {
@@ -47,18 +51,17 @@ int BluePhoenix::Init()
     }
 
     std::cout << glGetString(GL_VERSION) << std::endl;
-    //glfwSetKeyCallback(window, key_callback);
+    glfwSetKeyCallback(window, key_callback);
 
     return 0;
 }
 
 void BluePhoenix::Setup()
 {
-    unsigned trianguloX = scene.createEntity();
-    unsigned trianguloY = scene.createEntity();
+    trianguloX = scene.createEntity();
+    trianguloY = scene.createEntity();
 
     scene.addSystem(new Mover());
-
     scene.addSystem(new RenderQuad());
 
 
@@ -80,6 +83,21 @@ void BluePhoenix::Run()
         glClear(GL_COLOR_BUFFER_BIT);
 
         /* Dibujar aqui !!!!1*/
+        static bool estado = false;
+        if (pulsado)
+        {
+            pulsado = false;
+            if (estado)
+            {
+                scene.deactivateSystem(1);
+            }
+            else
+            {
+                scene.activateSystem(1);
+            }
+            estado = !estado;
+        }
+
 
         scene.Tick();
 

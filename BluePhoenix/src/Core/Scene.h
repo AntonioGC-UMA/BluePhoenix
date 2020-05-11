@@ -17,7 +17,9 @@ namespace BP_ECS
 		unordered_map<unsigned, ComponentList*> componentList;
 
 		std::vector<System*> systems;
+		std::vector<System*> activeSystems;
 		unsigned entityCounter = 0;
+		unsigned systemCounter = 0;
 	public:
 
 		unsigned createEntity()
@@ -52,16 +54,31 @@ namespace BP_ECS
 			entities.erase(entity);
 		}
 
-		void addSystem(System* s)
+		unsigned addSystem(System* s)
 		{
 			systems.push_back(s);
+			activeSystems.push_back(s);
+			return systemCounter++;
+		}
+
+		void activateSystem(unsigned pos)
+		{			
+			activeSystems.at(pos) = systems.at(pos);
+		}
+
+		void deactivateSystem(unsigned pos)
+		{
+			activeSystems.at(pos) = nullptr;
 		}
 
 		void Tick()
 		{
-			for (auto item : systems)
+			for (auto item : activeSystems)
 			{
-				item->Tick();
+				if (item != nullptr)
+				{
+					item->Tick();
+				}
 			}
 		}
 
