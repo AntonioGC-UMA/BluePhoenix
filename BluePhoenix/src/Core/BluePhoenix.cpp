@@ -8,23 +8,12 @@
 #include "../Components/Bounds.h"
           
 
+#include "../Systems/PlayerInput.h"
 #include "../Systems/RenderQuad.h"
 #include "../Systems/Rotate.h"
 #include "../Systems/Mover.h"
 
-bool pulsado = false;
 
-unsigned trianguloX;
-unsigned trianguloY;
-
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_E && action == GLFW_PRESS)
-    {
-        pulsado = true;        
-    }
-}
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -59,26 +48,27 @@ int BluePhoenix::Init()
     }
 
     std::cout << glGetString(GL_VERSION) << std::endl;
-    glfwSetKeyCallback(window, key_callback);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     return 0;
 }
 
 void BluePhoenix::Setup()
 {
-    trianguloX = scene.createEntity();
-    trianguloY = scene.createEntity();
+    Entity trianguloX = scene.createEntity();
+    Entity trianguloY = scene.createEntity();
 
     scene.addSystem(new Mover());
     scene.addSystem(new RenderQuad());
     scene.addSystem(new Rotate());
+    scene.addSystem(new PlayerInput(window));
 
 
-    scene.addComponent<Velocity>(trianguloX, { 0.0001f, 0.f });
+    scene.addComponent<Velocity>(trianguloX, { {0,0,0} });
     scene.addComponent<Bounds>(trianguloX, { 1.f, -1.f });
     scene.addComponent<Transform>(trianguloX, { {0,0,0}, 0 });    
+    scene.addTag<PlayerTag>(trianguloX);
 
-    scene.addComponent<Velocity>(trianguloY, { 0.f, 0.0001f });
+    scene.addComponent<Velocity>(trianguloY, { {0, 0.0005,0} });
     scene.addComponent<Bounds>(trianguloY, { 1.f, -1.f });
     scene.addComponent<Transform>(trianguloY, { {0,0,0}, 0 });
     scene.addComponent<RotationSpeed>(trianguloY, { 0.0001 });
@@ -88,26 +78,8 @@ void BluePhoenix::Run()
 {
     while (!glfwWindowShouldClose(window))
     {
-
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
-        /* Dibujar aqui !!!!*/
-        static bool estado = false;
-        if (pulsado)
-        {
-            pulsado = false;
-            if (!estado)
-            {
-                scene.removeComponent<Bounds>(trianguloX);
-            }
-            else
-            {
-                scene.addComponent<Bounds>(trianguloX, { 1,-1 });
-            }
-            estado = !estado;
-        }
-
 
         scene.Tick();
 

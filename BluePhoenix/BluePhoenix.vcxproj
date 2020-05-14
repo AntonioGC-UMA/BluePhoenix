@@ -166,10 +166,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\stb_image.h" />
+    <ClInclude Include="src\Components\PlayerTag.h" />
     <ClInclude Include="src\Components\RotationSpeed.h" />
     <ClInclude Include="src\Core\BluePhoenix.h" />
     <ClInclude Include="external\plf_colony.h" />
     <ClInclude Include="src\Core\ECS.hpp" />
+    <ClInclude Include="src\Systems\PlayerInput.h" />
     <ClInclude Include="src\Systems\RenderQuad.h" />
     <ClInclude Include="src\Components\Bounds.h" />
     <ClInclude Include="src\Core\ComponentList.h" />

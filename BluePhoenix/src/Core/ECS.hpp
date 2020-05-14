@@ -79,6 +79,20 @@ namespace ecs
 		void destroyEntity(Entity ent);
 
 		template<typename T>
+		void addTag(Entity ent)
+		{
+			Key k = getCode<T>();
+
+			Key entK = (entities.at(ent) |= k);
+
+			for (auto item : systems)
+			{
+				if (item->filtrar(entK) && !item->hasEntity(ent))
+					item->addEntity(ent);
+			}
+		}
+
+		template<typename T>
 		void addComponent(Entity ent, T comp)
 		{
 			Key k = getCode<T>();

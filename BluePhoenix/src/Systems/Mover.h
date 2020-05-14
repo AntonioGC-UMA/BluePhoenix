@@ -13,8 +13,8 @@ struct Mover : public ecs::BaseSystem<Transform, Velocity, Bounds>
 		{
 			auto [trans, vel, bound] = components;
 
-			trans->pos.x += vel->x;
-			trans->pos.y += vel->y;
+			trans->pos.x += vel->vel.x;
+			trans->pos.y += vel->vel.y;
 
 			if (trans->pos.x > bound->right)
 			{

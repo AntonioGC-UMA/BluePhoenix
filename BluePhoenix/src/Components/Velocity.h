@@ -1,9 +1,8 @@
 #pragma once
 
+#include "../../glm/vec3.hpp"
 
 struct Velocity
 {
-	Velocity(float x, float y) : x(x), y(y) {}
-
-	float x = 0, y = 0;
+	glm::vec3 vel;
 };
