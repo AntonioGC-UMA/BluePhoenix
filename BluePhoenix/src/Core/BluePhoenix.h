@@ -3,10 +3,9 @@
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 
-#include "Scene.h"
+#include "ECS.hpp"
 
-using namespace BP_ECS;
-
+using namespace ecs;
 
 class BluePhoenix
 {

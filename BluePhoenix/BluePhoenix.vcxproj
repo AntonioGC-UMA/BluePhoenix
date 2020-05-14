@@ -89,6 +89,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)BluePhoenix\external\GLEW\include;$(SolutionDir)BluePhoenix\external\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,6 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)BluePhoenix\external\GLEW\include;$(SolutionDir)BluePhoenix\external\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,6 +125,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)BluePhoenix\external\GLEW\include;$(SolutionDir)BluePhoenix\external\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +134,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)BluePhoenix\external\GLEW\lib\Release\Win32;$(SolutionDir)BluePhoenix\external\GLFW\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;glew32s.lib;opengl32.lib;glfw3.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,6 +146,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)BluePhoenix\external\GLEW\include;$(SolutionDir)BluePhoenix\external\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,29 +155,26 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)BluePhoenix\external\GLEW\lib\Release\Win32;$(SolutionDir)BluePhoenix\external\GLFW\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;glew32s.lib;opengl32.lib;glfw3.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\BluePhoenix.cpp" />
-    <ClCompile Include="src\Core\Component.cpp" />
+    <ClCompile Include="src\Core\ECS.cpp" />
     <ClCompile Include="src\Systems\RenderQuad.cpp" />
-    <ClCompile Include="src\Systems\RenderTriangle.cpp" />
     <ClCompile Include="src\Systems\Mover.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="external\stb_image.h" />
     <ClInclude Include="src\Core\BluePhoenix.h" />
     <ClInclude Include="external\plf_colony.h" />
-    <ClInclude Include="src\Core\Component.h" />
+    <ClInclude Include="src\Core\ECS.hpp" />
     <ClInclude Include="src\Systems\RenderQuad.h" />
     <ClInclude Include="src\Components\Bounds.h" />
     <ClInclude Include="src\Core\ComponentList.h" />
-    <ClInclude Include="src\Systems\RenderTriangle.h" />
     <ClInclude Include="src\Systems\Mover.h" />
-    <ClInclude Include="src\Core\Scene.h" />
-    <ClInclude Include="src\Core\Entity.h" />
     <ClInclude Include="src\Components\Transform.h" />
-    <ClInclude Include="src\Core\System.h" />
     <ClInclude Include="src\Components\Velocity.h" />
   </ItemGroup>
   <ItemGroup>

@@ -6,8 +6,7 @@
 #include "../Components/Velocity.h"
 #include "../Components/Bounds.h"
           
-          
-#include "../Systems/RenderTriangle.h"
+
 #include "../Systems/RenderQuad.h"
 #include "../Systems/Mover.h"
 
@@ -23,6 +22,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     {
         pulsado = true;        
     }
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
 }
 
 int BluePhoenix::Init()
@@ -52,7 +58,7 @@ int BluePhoenix::Init()
 
     std::cout << glGetString(GL_VERSION) << std::endl;
     glfwSetKeyCallback(window, key_callback);
-
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     return 0;
 }
 
@@ -65,13 +71,13 @@ void BluePhoenix::Setup()
     scene.addSystem(new RenderQuad());
 
 
-    scene.addComponent<Velocity>(trianguloX, 0.0001f, 0.f);
-    scene.addComponent<Bounds>(trianguloX, 1.f, -1.f);
-    scene.addComponent<Transform>(trianguloX);
+    scene.addComponent<Velocity>(trianguloX, { 0.0001f, 0.f });
+    scene.addComponent<Bounds>(trianguloX, { 1.f, -1.f });
+    scene.addComponent<Transform>(trianguloX, {0, 0});
 
-    scene.addComponent<Velocity>(trianguloY, 0.f, 0.0001f);
-    scene.addComponent<Bounds>(trianguloY, 1.f, -1.f);
-    scene.addComponent<Transform>(trianguloY);
+    scene.addComponent<Velocity>(trianguloY, { 0.f, 0.0001f });
+    scene.addComponent<Bounds>(trianguloY, { 1.f, -1.f });
+    scene.addComponent<Transform>(trianguloY, {0, 0});
 }
 
 void BluePhoenix::Run()
@@ -82,7 +88,7 @@ void BluePhoenix::Run()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        /* Dibujar aqui !!!!1*/
+        /* Dibujar aqui !!!!*/
         static bool estado = false;
         if (pulsado)
         {
@@ -93,7 +99,7 @@ void BluePhoenix::Run()
             }
             else
             {
-                scene.addComponent<Bounds>(trianguloX, 1, -1);
+                scene.addComponent<Bounds>(trianguloX, { 1,-1 });
             }
             estado = !estado;
         }

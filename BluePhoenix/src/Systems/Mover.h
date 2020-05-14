@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Core/System.h"
+#include "../Core/ECS.hpp"
 #include "../Components/Transform.h"
 #include "../Components/Velocity.h"
 #include "../Components/Bounds.h"
 
-struct Mover : public BP_ECS::BaseSystem<Transform, Velocity, Bounds>
+struct Mover : public ecs::BaseSystem<Transform, Velocity, Bounds>
 {
 	void Tick() override
 	{

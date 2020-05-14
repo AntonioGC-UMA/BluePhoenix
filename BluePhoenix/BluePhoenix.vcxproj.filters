@@ -18,35 +18,20 @@
     <ClCompile Include="src\Source.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\Systems\RenderTriangle.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="src\Systems\Mover.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="src\Systems\RenderQuad.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Component.cpp">
+    <ClCompile Include="src\Core\BluePhoenix.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\BluePhoenix.cpp">
+    <ClCompile Include="src\Core\ECS.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\Entity.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\System.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Scene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Systems\RenderTriangle.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="src\Systems\Mover.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -68,10 +53,13 @@
     <ClInclude Include="src\Systems\RenderQuad.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Component.h">
+    <ClInclude Include="src\Core\BluePhoenix.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\BluePhoenix.h">
+    <ClInclude Include="src\Core\ECS.hpp">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="external\stb_image.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Core/System.h"
+#include "../Core/ECS.hpp"
 #include "../Components/Transform.h"
 
-class RenderQuad : public  BP_ECS::BaseSystem<Transform>
+class RenderQuad : public  ecs::BaseSystem<Transform>
 {
 public:
 	RenderQuad();
@@ -15,5 +15,6 @@ public:
 private:
 	unsigned int shader;
 	unsigned int VBO, VAO, EBO;
+	unsigned int texture1, texture2;
 };
 
