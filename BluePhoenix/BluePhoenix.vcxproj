@@ -162,11 +162,11 @@
     <ClCompile Include="src\Core\BluePhoenix.cpp" />
     <ClCompile Include="src\Core\ECS.cpp" />
     <ClCompile Include="src\Systems\RenderQuad.cpp" />
-    <ClCompile Include="src\Systems\Mover.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\stb_image.h" />
+    <ClInclude Include="src\Components\RotationSpeed.h" />
     <ClInclude Include="src\Core\BluePhoenix.h" />
     <ClInclude Include="external\plf_colony.h" />
     <ClInclude Include="src\Core\ECS.hpp" />
@@ -176,6 +176,7 @@
     <ClInclude Include="src\Systems\Mover.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Components\Velocity.h" />
+    <ClInclude Include="src\Systems\Rotate.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Shaders\fragment.shader" />

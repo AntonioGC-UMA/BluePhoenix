@@ -13,16 +13,16 @@ struct Mover : public ecs::BaseSystem<Transform, Velocity, Bounds>
 		{
 			auto [trans, vel, bound] = components;
 
-			trans->x += vel->x;
-			trans->y += vel->y;
+			trans->pos.x += vel->x;
+			trans->pos.y += vel->y;
 
-			if (trans->x > bound->right)
+			if (trans->pos.x > bound->right)
 			{
-				trans->x = bound->left;
+				trans->pos.x = bound->left;
 			}
-			if (trans->y > bound->right)
+			if (trans->pos.y > bound->right)
 			{
-				trans->y = bound->left;
+				trans->pos.y = bound->left;
 			}
 		}
 	}

@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../../glm/vec3.hpp"
 
 struct Transform
 {
-	float x = 0, y = 0;
+	glm::vec3 pos;
+	float rotation;
 };
 

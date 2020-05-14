@@ -8,6 +8,10 @@
 
 #include "GL/glew.h"
 
+#include "../../glm/glm.hpp"
+#include "../../glm/gtc/matrix_transform.hpp"
+#include "../../glm/gtc/type_ptr.hpp"
+
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../stb_image.h"
@@ -191,8 +195,13 @@ void RenderQuad::Tick()
 
 		glUseProgram(shader);
 
-		int vertexColorLocation = glGetUniformLocation(shader, "offset");
-		glUniform3f(vertexColorLocation, t->x, t->y, 0);
+		// create transformations
+		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		transform = glm::translate(transform, t->pos);
+		transform = glm::rotate(transform, t->rotation, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		unsigned int transformLoc = glGetUniformLocation(shader, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);

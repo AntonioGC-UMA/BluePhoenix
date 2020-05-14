@@ -2,12 +2,14 @@
 
 #include <iostream>
 
+#include "../Components/RotationSpeed.h"
 #include "../Components/Transform.h"
 #include "../Components/Velocity.h"
 #include "../Components/Bounds.h"
           
 
 #include "../Systems/RenderQuad.h"
+#include "../Systems/Rotate.h"
 #include "../Systems/Mover.h"
 
 bool pulsado = false;
@@ -69,15 +71,17 @@ void BluePhoenix::Setup()
 
     scene.addSystem(new Mover());
     scene.addSystem(new RenderQuad());
+    scene.addSystem(new Rotate());
 
 
     scene.addComponent<Velocity>(trianguloX, { 0.0001f, 0.f });
     scene.addComponent<Bounds>(trianguloX, { 1.f, -1.f });
-    scene.addComponent<Transform>(trianguloX, {0, 0});
+    scene.addComponent<Transform>(trianguloX, { {0,0,0}, 0 });    
 
     scene.addComponent<Velocity>(trianguloY, { 0.f, 0.0001f });
     scene.addComponent<Bounds>(trianguloY, { 1.f, -1.f });
-    scene.addComponent<Transform>(trianguloY, {0, 0});
+    scene.addComponent<Transform>(trianguloY, { {0,0,0}, 0 });
+    scene.addComponent<RotationSpeed>(trianguloY, { 0.0001 });
 }
 
 void BluePhoenix::Run()
