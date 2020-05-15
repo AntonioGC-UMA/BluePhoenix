@@ -65,7 +65,7 @@ void BluePhoenix::Setup()
     Entity trianguloY = scene.createEntity();
 
     scene.addSystem(new Mover());
-    scene.addSystem(new RenderQuad());
+    scene.addSystem(new RenderQuad(window));
     scene.addSystem(new Rotate());
     scene.addSystem(new PlayerInput(window));
 
@@ -85,10 +85,13 @@ void BluePhoenix::Run()
 {
     auto lastFrame = high_resolution_clock::now();
 
+
+    glEnable(GL_DEPTH_TEST);
+
     while (!glfwWindowShouldClose(window))
     {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
         auto thisFrame = high_resolution_clock::now();

@@ -6,9 +6,8 @@
 #include <fstream>
 #include <sstream>
 
-#include "GL/glew.h"
 
-#include "../../glm/glm.hpp"
+
 #include "../../glm/gtc/matrix_transform.hpp"
 #include "../../glm/gtc/type_ptr.hpp"
 
@@ -16,7 +15,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../stb_image.h"
 
-RenderQuad::RenderQuad()
+RenderQuad::RenderQuad(GLFWwindow* window) : window(window)
 {
 	std::string vertexCode;
 	std::string fragmentCode;
@@ -189,9 +188,50 @@ RenderQuad::RenderQuad()
 
 void RenderQuad::Tick(float dt)
 {
+	double xpos, ypos;
 
+	glfwGetCursorPos(window, &xpos, &ypos);
 	
+	float xoffset = xpos - lastX;
+	float yoffset = lastY - ypos;
+	lastX = xpos;
+	lastY = ypos;
 
+	float sensitivity = 0.05;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.y = sin(glm::radians(pitch));
+	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(direction);
+
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		cameraPos += glm::vec3(0, 1, 0) * dt;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	{
+		cameraPos += glm::vec3(-1, 0, 0) * dt;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		cameraPos += glm::vec3(0, -1, 0) * dt;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+	{
+		cameraPos += glm::vec3(1, 0, 0) * dt;
+	}
 
 	for (auto [entity, components] : comp)
 	{
@@ -212,7 +252,7 @@ void RenderQuad::Tick(float dt)
 		model = glm::rotate(model, glm::radians(t->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(t->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::rotate(model, glm::radians(t->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-		view = glm::translate(view, { 0,0,-3 }); ////// La posicion de la camara
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 		projection = glm::perspective(glm::radians(45.0f), (float)640 / (float)480, 0.1f, 100.0f);
 		
 		unsigned int modelLoc = glGetUniformLocation(shader, "model");
