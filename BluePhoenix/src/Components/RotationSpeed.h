@@ -1,6 +1,8 @@
 #pragma once
 
+#include "../../glm/glm.hpp"
+
 struct RotationSpeed
 {
-	float speed = 0;
+	glm::vec3 speed;
 };

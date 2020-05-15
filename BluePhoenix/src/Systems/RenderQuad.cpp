@@ -208,10 +208,11 @@ void RenderQuad::Tick(float dt)
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		model = glm::rotate(model, glm::radians(t->rotation), glm::vec3(1.0f, 0.0f, 0.0f));
-		view = glm::translate(view, t->pos);
+		model = glm::translate(model, t->position);
+		model = glm::rotate(model, glm::radians(t->rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(t->rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(t->rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+		view = glm::translate(view, { 0,0,-3 }); ////// La posicion de la camara
 		projection = glm::perspective(glm::radians(45.0f), (float)640 / (float)480, 0.1f, 100.0f);
 		
 		unsigned int modelLoc = glGetUniformLocation(shader, "model");

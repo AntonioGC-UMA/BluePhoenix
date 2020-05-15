@@ -72,13 +72,13 @@ void BluePhoenix::Setup()
 
     scene.addComponent<Velocity>(trianguloX, { {0,0,0} });
     scene.addComponent<Bounds>(trianguloX, { 1.f, -1.f });
-    scene.addComponent<Transform>(trianguloX, { {0,0,-3}, 0 });    
+    scene.addComponent<Transform>(trianguloX, { {0,0,0}, {0,0,0} });
     scene.addTag<PlayerTag>(trianguloX);
 
     scene.addComponent<Velocity>(trianguloY, { {0, 1,0} });
     scene.addComponent<Bounds>(trianguloY, { 1.f, -1.f });
-    scene.addComponent<Transform>(trianguloY, { {0,0,-3}, 0 });
-    scene.addComponent<RotationSpeed>(trianguloY, { 120 });
+    scene.addComponent<Transform>(trianguloY, { {0,0,0},  {0,0,0} });
+    scene.addComponent<RotationSpeed>(trianguloY, { { 120, 0, 50} });
 }
 
 void BluePhoenix::Run()
