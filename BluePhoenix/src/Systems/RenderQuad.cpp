@@ -187,26 +187,40 @@ RenderQuad::RenderQuad()
 	glUniform1i(glGetUniformLocation(shader, "texture2"), 1);
 }
 
-void RenderQuad::Tick()
+void RenderQuad::Tick(float dt)
 {
+
+	
+
+
 	for (auto [entity, components] : comp)
 	{
 		auto [t] = components;
-
-		glUseProgram(shader);
-
-		// create transformations
-		glm::mat4 transform = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		transform = glm::translate(transform, t->pos);
-		transform = glm::rotate(transform, t->rotation, glm::vec3(0.0f, 0.0f, 1.0f));
-
-		unsigned int transformLoc = glGetUniformLocation(shader, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture2);
+
+		glUseProgram(shader);
+
+		glm::mat4 model = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 projection = glm::mat4(1.0f);
+
+		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		model = glm::rotate(model, glm::radians(t->rotation), glm::vec3(1.0f, 0.0f, 0.0f));
+		view = glm::translate(view, t->pos);
+		projection = glm::perspective(glm::radians(45.0f), (float)640 / (float)480, 0.1f, 100.0f);
+		
+		unsigned int modelLoc = glGetUniformLocation(shader, "model");
+		unsigned int viewLoc = glGetUniformLocation(shader, "view");
+		unsigned int projLoc = glGetUniformLocation(shader, "projection");
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, &projection[0][0]);
+
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

@@ -7,14 +7,13 @@
 
 struct Mover : public ecs::BaseSystem<Transform, Velocity, Bounds>
 {
-	void Tick() override
+	void Tick(float dt) final
 	{
 		for (auto [entity, components] : comp)
 		{
 			auto [trans, vel, bound] = components;
 
-			trans->pos.x += vel->vel.x;
-			trans->pos.y += vel->vel.y;
+			trans->pos += vel->vel * dt;
 
 			if (trans->pos.x > bound->right)
 			{

@@ -7,13 +7,13 @@
 
 struct Rotate : public ecs::BaseSystem<Transform, RotationSpeed>
 {
-	void Tick() override
+	void Tick(float dt) override
 	{
 		for (auto [entity, components] : comp)
 		{
 			auto [tran, speed] = components;
 
-			tran->rotation += speed->speed;
+			tran->rotation += speed->speed * dt;
 		}
 	}
 };

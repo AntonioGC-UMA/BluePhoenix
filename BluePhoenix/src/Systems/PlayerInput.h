@@ -21,7 +21,7 @@ struct PlayerInput : public ecs::BaseSystem<Velocity>
 		return (myKey & k) == myKey;
 	}
 
-	void Tick() override
+	void Tick(float dt) override
 	{
 		glm::vec3 vel = { 0,0,0 };
 
@@ -41,8 +41,6 @@ struct PlayerInput : public ecs::BaseSystem<Velocity>
 		{
 			vel = { 1, 0, 0 };
 		}
-
-		vel *= 0.0005;
 
 		for (auto [entity, components] : comp)
 		{

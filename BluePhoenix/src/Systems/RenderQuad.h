@@ -8,7 +8,7 @@ class RenderQuad : public  ecs::BaseSystem<Transform>
 public:
 	RenderQuad();
 
-	void Tick() final;
+	void Tick(float dt) final;
 
 	~RenderQuad();
 

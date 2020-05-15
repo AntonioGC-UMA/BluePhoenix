@@ -22,7 +22,7 @@ namespace ecs
 
 	struct System
 	{
-		virtual void Tick() = 0;
+		virtual void Tick(float dt) = 0;
 		virtual bool filtrar(Key k) = 0;
 		virtual bool hasEntity(Entity entity) = 0;
 		virtual void addEntity(Entity entity) = 0;
@@ -66,7 +66,7 @@ namespace ecs
 
 	public:
 
-		void Tick();
+		void Tick(float dt);
 
 		unsigned addSystem(System* s);		
 

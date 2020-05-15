@@ -4,13 +4,13 @@ using namespace ecs;
 
 Key contC = 1;
 
-void Scene::Tick()
+void Scene::Tick(float df)
 {
 	for (auto item : activeSystems)
 	{
 		if (item != nullptr)
 		{
-			item->Tick();
+			item->Tick(df);
 		}
 	}
 }
